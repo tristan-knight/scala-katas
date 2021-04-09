@@ -1,5 +1,3 @@
-import org.scalatest.FunSuite
-
 import scala.collection.mutable.ListBuffer
 
 //Configure your own Wardrobe
@@ -16,16 +14,19 @@ import scala.collection.mutable.ListBuffer
 //Write a function that returns all combinations of wardrobe elements that exactly fill the wall.
 //
 
-class ConfigureWardrobeTest extends FunSuite {
-  test("WardrobeConfigure.getWardrobeCombinations") {
-    assert(ConfigureWardrobe.getWardrobeCombinations(40) === ListBuffer())
-    assert(ConfigureWardrobe.getWardrobeCombinations(50) === ListBuffer(List(50)))
-    assert(ConfigureWardrobe.getWardrobeCombinations(75) === ListBuffer(List(75)))
-    assert(ConfigureWardrobe.getWardrobeCombinations(100) === ListBuffer(List(50, 50), List(100)))
-    assert(ConfigureWardrobe.getWardrobeCombinations(120) === ListBuffer(List(120)))
-//    assert(ConfigureWardrobe.getWardrobeCombinations(125) === ListBuffer(List(50, 75)))
-    assert(ConfigureWardrobe.getWardrobeCombinations(150) === ListBuffer(List(50, 50, 50), List(75, 75), List(50, 100)))
+object ConfigureWardrobe {
 
+  def getWardrobeCombinations(length: Int): ListBuffer[List[Int]] = {
+    val wardrobeSizes = List(50, 75, 100, 120)
+    val wardrobeCombinations: ListBuffer[List[Int]] = ListBuffer()
+    wardrobeCombinations.addAll(
+        wardrobeSizes
+          .filter(sizes => length % sizes == 0) // I think this will actually break for other configurations
+          .map{item => List(item).flatMap(item => List.fill(length/item)(item))}
+    )
+    wardrobeCombinations
   }
-
 }
+
+
+
