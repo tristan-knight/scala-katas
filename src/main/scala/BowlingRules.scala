@@ -20,26 +20,61 @@ class BowlingRules {
   var currentScore: ArrayBuffer[Int] = ArrayBuffer()
 
   def roll(pins: Int) = {
-    currentScore.append(pins)
+    currentScore += pins
+
   }
 
+//  // returns score for game
+//  def score(): Int = {
+//    var totalScore: Int = 0
+//    currentScore.foreach(score => totalScore += score )
+////    for (d <- currentScore) {
+////      totalScore += d
+////    }
+//    // check for spares
+//    var currIndex: Int = 0
+//    while (currIndex + 2 < currentScore.length) {
+//      if (currentScore(currIndex) + currentScore(currIndex + 1) == 10) {
+//        totalScore += currentScore(currIndex + 2)
+//      }
+//      currIndex += 2
+//    }
+//    totalScore
+//  }
+
+  // returns score for game
   def score(): Int = {
-    var sum: Int = 0
-    for (d <- currentScore) {
-      sum += d
-    }
-    // check for spares
-    var currIndex: Int = 0
-    while (currIndex + 2 < currentScore.length)
-      {
-        if (currentScore(currIndex) + currentScore(currIndex + 1) == 10) {
-          sum += currentScore(currIndex + 2)
-        }
-        currIndex += 2
+    if (currentScore(18) + currentScore(19) == 10) {
+      val firstFrames: Seq[(Int, Int)] = Seq.tabulate(10) {
+        currentScore.map(score => (score, score + 1))
       }
-    sum
+      val firstFrameScores: Seq[Int] = firstFrames.map(frame => {
+        case frame._1 == 10 =>
+          10 + firstFrames(firstFrames.indexOf(frame) + 1)._1 + firstFrames(firstFrames.indexOf(frame) + 1)._2
+        case frame._1 + frame._2 == 10 =>
+          10 + firstFrames(firstFrames.indexOf(frame) + 1)._1
+        case _ =>
+          frame._1 + frame._2
+      }
+      )
+      val lastFrameScore = currentScore(18) + currentScore(19) + currentScore(20)
+      firstFrameScores.sum + lastFrameScore
+    }
+    else
+      {
+        val frames: Seq[(Int, Int)] = Seq.tabulate(10){currentScore.map(score => (score, score + 1))}
+        val frameScores: Seq[Int] = frames.map(frame => {
+          case frame._1 == 10 =>
+            10 + frames(frames.indexOf(frame) + 1)._1 + frames(frames.indexOf(frame) + 1)._2
+          case frame._1 + frame._2 == 10 =>
+            10 + frames(frames.indexOf(frame) + 1)._1
+          case _ =>
+            frame._1 + frame._2
+        }
+        )
 
-  }
+        frameScores.sum
 
-
+      }
+    }
 }

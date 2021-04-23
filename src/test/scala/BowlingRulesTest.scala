@@ -60,4 +60,20 @@ class BowlingRulesTest extends FunSuite {
 
   }
 
+  test("whole game - all strikes") {
+    val bowlingRules = new BowlingRules
+    (1 to 21) foreach (roll => bowlingRules.roll(10))
+    assert(bowlingRules.score() == 300)
+  }
+
+  test("no strike or spares") {
+    val bowlingRules = new BowlingRules
+    (1 to 20) foreach (roll => bowlingRules.roll(7))
+    assert(bowlingRules.score() == 7 * 20)
+  }
+
+  test("a soar") {
+    ???
+  }
+
 }
