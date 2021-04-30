@@ -42,37 +42,40 @@ class BowlingRules {
 //    totalScore
 //  }
 
+
   // returns score for game
   def score(): Int = {
-    if (currentScore(18) + currentScore(19) == 10) {
-      val firstFrames: Seq[(Int, Int)] = Seq.tabulate(10) {
-        currentScore.map(score => (score, score + 1))
+    if (currentScore(18) + currentScore(19) >= 10) {
+      val firstNineFrames: Seq[(Int, Int)] = Seq.tabulate(9) {
+        currentScore.dropRight(3).map(score => (score, currentScore(currentScore.indexOf(score) + 1)))
       }
-      val firstFrameScores: Seq[Int] = firstFrames.map(frame => {
-        case frame._1 == 10 =>
-          10 + firstFrames(firstFrames.indexOf(frame) + 1)._1 + firstFrames(firstFrames.indexOf(frame) + 1)._2
-        case frame._1 + frame._2 == 10 =>
-          10 + firstFrames(firstFrames.indexOf(frame) + 1)._1
-        case _ =>
-          frame._1 + frame._2
-      }
-      )
+      val firstFrameScores: Seq[Int] =
+        firstNineFrames.map(frame => {
+          if (frame._1 == 10)
+            10 + firstNineFrames(firstNineFrames.indexOf(frame) + 1)._1 + firstNineFrames(firstNineFrames.indexOf(frame) + 1)._2
+          else if (frame._1 + frame._2 == 10)
+            10 + firstNineFrames(firstNineFrames.indexOf(frame) + 1)._1
+          else
+            frame._1 + frame._2
+        }
+        )
       val lastFrameScore = currentScore(18) + currentScore(19) + currentScore(20)
       firstFrameScores.sum + lastFrameScore
     }
     else
       {
-        val frames: Seq[(Int, Int)] = Seq.tabulate(10){currentScore.map(score => (score, score + 1))}
-        val frameScores: Seq[Int] = frames.map(frame => {
-          case frame._1 == 10 =>
-            10 + frames(frames.indexOf(frame) + 1)._1 + frames(frames.indexOf(frame) + 1)._2
-          case frame._1 + frame._2 == 10 =>
-            10 + frames(frames.indexOf(frame) + 1)._1
-          case _ =>
-            frame._1 + frame._2
+        val frames: Seq[(Int, Int)] = Seq.tabulate(10){currentScore.dropRight(0).map(score => (score, currentScore(currentScore.indexOf(score) + 1)))}
+        val frameScores: Seq[Int] = Seq.tabulate(10) {
+          frames.map(frame => {
+            if (frame._1 == 10)
+              10 + frames(frames.indexOf(frame) + 1)._1 + frames(frames.indexOf(frame) + 1)._2
+            else if (frame._1 + frame._2 == 10)
+              frames(frames.indexOf(frame) + 1)._1
+            else
+              frame._1 + frame._2
+          }
+          )
         }
-        )
-
         frameScores.sum
 
       }
