@@ -28,36 +28,69 @@ class BowlingRulesTest extends FunSuite {
 
   }
 
-  test("single frame") {
-    val bowlingRules = new BowlingRules
-    bowlingRules.roll(7)
-    bowlingRules.roll(0)
-    assert(bowlingRules.score() == 7)
+//  test("single frame") {
+//    val bowlingRules = new BowlingRules
+//    bowlingRules.roll(7)
+//    bowlingRules.roll(0)
+//    assert(bowlingRules.score() == 7)
+//
+//  }
+//
+//  test("spare") {
+//    val bowlingRules = new BowlingRules
+//    bowlingRules.roll(3)
+//    bowlingRules.roll(7)
+//    bowlingRules.roll(1)
+//    bowlingRules.roll(2)
+//    // First frame score of 11, second frame score of 3
+//    assert(bowlingRules.score() == 10 + 1 + 3)
+//
+//  }
+//
+//  test("spare second frame") {
+//    val bowlingRules = new BowlingRules
+//    bowlingRules.roll(3)
+//    bowlingRules.roll(5)
+//    bowlingRules.roll(9)
+//    bowlingRules.roll(1)
+//    bowlingRules.roll(1)
+//    bowlingRules.roll(2)
+//    // First frame score of 11, second frame score of 3
+//    assert(bowlingRules.score() == 8 + 10 + 1 + 3)
+//
+//  }
 
+  test("whole game - all strikes") {
+    val bowlingRules = new BowlingRules
+    (1 to 21) foreach (roll => bowlingRules.roll(10))
+    assert(bowlingRules.score() == 300)
   }
 
-  test("spare") {
+  test("whole game - no strike or spares") {
     val bowlingRules = new BowlingRules
-    bowlingRules.roll(3)
-    bowlingRules.roll(7)
+    (1 to 20) foreach (roll => bowlingRules.roll(3))
+    assert(bowlingRules.score() == 3 * 20)
+  }
+
+  test("spare in last frame") {
+    val bowlingRules = new BowlingRules
+    (1 to 18) foreach (roll => bowlingRules.roll(3))
     bowlingRules.roll(1)
-    bowlingRules.roll(2)
-    // First frame score of 11, second frame score of 3
-    assert(bowlingRules.score() == 10 + 1 + 3)
-
-  }
-
-  test("spare second frame") {
-    val bowlingRules = new BowlingRules
-    bowlingRules.roll(3)
-    bowlingRules.roll(5)
     bowlingRules.roll(9)
-    bowlingRules.roll(1)
-    bowlingRules.roll(1)
-    bowlingRules.roll(2)
-    // First frame score of 11, second frame score of 3
-    assert(bowlingRules.score() == 8 + 10 + 1 + 3)
+    bowlingRules.roll(5)
+    assert(bowlingRules.score() == 3 * 18 + 10 + 5)
+  }
 
+  test("no pins") {
+    val bowlingRules = new BowlingRules
+    (1 to 20) foreach (roll => bowlingRules.roll(0))
+    assert(bowlingRules.score() == 0)
+  }
+
+  test("spare in every frame") {
+    val bowlingRules = new BowlingRules
+    (1 to 21) foreach (roll => bowlingRules.roll(5))
+    assert(bowlingRules.score() == 150)
   }
 
 }
