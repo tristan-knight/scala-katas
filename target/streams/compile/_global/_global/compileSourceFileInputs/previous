@@ -1,1 +1,0 @@
-["sbt.Task[scala.collection.immutable.Map[java.lang.String, scala.collection.Seq[scala.Tuple2[java.nio.file.Path, sbt.nio.FileStamp]]]]",{"2.13.3":{"hashes":[["/Users/tristanknight/Desktop/Kata/src/main/scala/RomanNumerals.scala","34d9babe9eae32b63b9a38019446f94e6085e4d9"]],"lastModifiedTimes":[]}}]
