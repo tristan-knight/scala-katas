@@ -4,7 +4,7 @@ object StringToDictionary {
 
   def toDictionary(string: String): MutableMap[String, String] = {
     val map: MutableMap[String, String] = MutableMap()
-    val splitString = string.split(";").filterNot(string => string.isEmpty)
+    val splitString = string.split(";").filterNot(_.isEmpty)
 
     splitString.foreach { string =>
       val (key, value) = buildKeyAndValue(string)
