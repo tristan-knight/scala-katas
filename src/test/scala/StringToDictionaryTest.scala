@@ -1,6 +1,6 @@
 import org.scalatest.FunSuite
 
-class NewKataTest extends FunSuite {
+class StringToDictionaryTest extends FunSuite {
 
 //  Implement a function that maps a special formatted string into a dictionary. The function should have the following signature:
 //
@@ -17,12 +17,16 @@ class NewKataTest extends FunSuite {
 
 
   test("stringToDictionary") {
-//    assert(StringToDictionary.toDictionary("") == Map())
-//    assert(StringToDictionary.toDictionary("a=1") == Map("a" -> "1"))
-//    assert(StringToDictionary.toDictionary("a=12") == Map("a" -> "12"))
-//    assert(StringToDictionary.toDictionary("a=") == Map("a" -> ""))
-//    assert(StringToDictionary.toDictionary("a==1") == Map("a" -> "=1"))
-    assertThrows[Exception]{StringToDictionary.toDictionary("=1")}
+    assert(StringToDictionary.toDictionary("") == Map())
+    assert(StringToDictionary.toDictionary("a=1") == Map("a" -> "1"))
+    assert(StringToDictionary.toDictionary("a=12") == Map("a" -> "12"))
+    assert(StringToDictionary.toDictionary("a=") == Map("a" -> ""))
+    assert(StringToDictionary.toDictionary("a==1") == Map("a" -> "=1"))
+    assertThrows[IllegalArgumentException]{StringToDictionary.toDictionary("=1")}
+    assert(StringToDictionary.toDictionary("a=1;b=2") == Map("a" -> "1", "b" ->  "2"))
+    assert(StringToDictionary.toDictionary("a=1;a=2") == Map("a" -> "2"))
+    assert(StringToDictionary.toDictionary("a=1;;b=2") == Map("a" -> "1", "b" -> "2"))
+    assert(StringToDictionary.toDictionary("a===1;;b=2;c=abcs=asdw") == Map("a" -> "==1", "b" -> "2", "c" -> "abcs=asdw"))
 
 
   }
